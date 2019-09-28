@@ -40,84 +40,8 @@ type TrieNode struct {
 	IsCompleteWord bool ///is it a complete word or just a prefix
 }
 
-func insertFromArray(terms []string, root *TrieNode) {
-	for _, value := range terms {
-		insertNode(root, value)
 
-	}
 
-}
-
-////this will open our file with
-///dictionary words and read it
-///return array instead of inserting
-////directly from file to allow testing
-func ReadFileData(path string) []string {
-
-	///defer executionTime(time.Now(), "ReadFile")
-
-	file, err := os.Open(path)
-
-	if err != nil {
-		log.Fatalf("Error oppening dictionary file: %s", err)
-	}
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	/// return each line stripped of any trailing end-of-line
-	scanner.Split(bufio.ScanLines)
-
-	// root Node of Trie which need to be empty
-
-	////loop all lines and insert all
-	///words into our trie
-	var data []string
-	for scanner.Scan() {
-		data = append(data, strings.TrimSpace(scanner.Text()))
-		////insertNode(root, scanner.Text())
-
-	}
-	/// getWords("cat",root)
-	return data
-
-}
-
-func searchMultipleTerms(terms []string, root *TrieNode) {
-
-	for _, value := range terms {
-		position := 1
-		output := make([]string, 26, 26)
-		getWords(value, root, output, &position)
-	}
-
-}
-
-///this will search for
-///all words that can be formed from
-//a single word
-func getWords(term string, root *TrieNode, output []string, position *int) {
-	////convert our search tetm to rune
-	///char := []rune(term)
-	log.Printf("Phrases from %s:", term)
-	present := make([]bool, alphaSize, alphaSize)
-
-	///log.Println(len(term))
-	for i := 0; i < len(term); i++ {
-
-		present[ term[i]-'a'] = true
-
-	}
-	word := ""
-	temp := root
-	for i := 0; i < alphaSize; i++ {
-		if present[i] == true && temp.children[i] != nil {
-			word := word + string(i+'a')
-			SearchWords(temp.children[i], present, word, output, position)
-			word = ""
-		}
-
-	}
-
-}
 
 //return new trie node initialized
 // to nil
@@ -215,3 +139,96 @@ func DisplayTrieContent(root *TrieNode, word []string, level int, output []strin
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+func insertFromArray(terms []string, root *TrieNode) {
+	for _, value := range terms {
+		insertNode(root, value)
+
+	}
+
+}
+
+////this will open our file with
+///dictionary words and read it
+///return array instead of inserting
+////directly from file to allow testing
+func ReadFileData(path string) []string {
+
+	///defer executionTime(time.Now(), "ReadFile")
+
+	file, err := os.Open(path)
+
+	if err != nil {
+		log.Fatalf("Error oppening dictionary file: %s", err)
+	}
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	/// return each line stripped of any trailing end-of-line
+	scanner.Split(bufio.ScanLines)
+
+	// root Node of Trie which need to be empty
+
+	////loop all lines and insert all
+	///words into our trie
+	var data []string
+	for scanner.Scan() {
+		data = append(data, strings.TrimSpace(scanner.Text()))
+		////insertNode(root, scanner.Text())
+
+	}
+	/// getWords("cat",root)
+	return data
+
+}
+
+func searchMultipleTerms(terms []string, root *TrieNode) {
+
+	for _, value := range terms {
+		position := 1
+		output := make([]string, 26, 26)
+		getWords(value, root, output, &position)
+	}
+
+}
+
+///this will search for
+///all words that can be formed from
+//a single word
+func getWords(term string, root *TrieNode, output []string, position *int) {
+	////convert our search tetm to rune
+	///char := []rune(term)
+	log.Printf("Phrases from %s:", term)
+	present := make([]bool, alphaSize, alphaSize)
+
+	///log.Println(len(term))
+	for i := 0; i < len(term); i++ {
+
+		present[ term[i]-'a'] = true
+
+	}
+	word := ""
+	temp := root
+	for i := 0; i < alphaSize; i++ {
+		if present[i] == true && temp.children[i] != nil {
+			word := word + string(i+'a')
+			SearchWords(temp.children[i], present, word, output, position)
+			word = ""
+		}
+
+	}
+
+}
+
