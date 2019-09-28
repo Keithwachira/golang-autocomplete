@@ -21,7 +21,7 @@ const alphaSize = 26
 func main() {
 	///executionTime(time.Now(),"main_test")
 	root := TrieNode{}
-	dictionary := []string{"cat", "a", "aa", "dog","o","gdo", "museum", "photosynthesis", "typewriter"}
+	dictionary := []string{"cat", "a", "aa", "dog", "o", "gdo", "museum", "photosynthesis", "typewriter"}
 	////dictionary := ReadFileData("words_alpha.txt")
 	insertFromArray(dictionary, &root)
 
@@ -39,9 +39,6 @@ type TrieNode struct {
 	children       [alphaSize]*TrieNode
 	IsCompleteWord bool ///is it a complete word or just a prefix
 }
-
-
-
 
 //return new trie node initialized
 // to nil
@@ -140,19 +137,6 @@ func DisplayTrieContent(root *TrieNode, word []string, level int, output []strin
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 func insertFromArray(terms []string, root *TrieNode) {
 	for _, value := range terms {
 		insertNode(root, value)
@@ -231,4 +215,3 @@ func getWords(term string, root *TrieNode, output []string, position *int) {
 	}
 
 }
-
